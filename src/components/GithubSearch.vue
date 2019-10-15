@@ -5,7 +5,6 @@
   </form>
 </template>
 <script>
-import store from "@/store";
 import CustomButton from "@/components/CustomButton.vue";
 import CustomInput from "@/components/CustomInput.vue";
 import { getUserRepositories } from "@/services/github";
@@ -31,23 +30,26 @@ export default {
   methods: {
     async getRepositories() {
       const response = await getUserRepositories(this.username);
-      store.commit("githubUser", this.username);
+      this.$store.commit("githubUser", this.username);
       if (response.message) {
-        store.commit("errorMessage", "O usuário informado não existe");
+        this.$store.commit("errorMessage", "O usuário informado não existe");
         return;
       }
       if (!response.data.length) {
-        store.commit(
+        this.$store.commit(
           "errorMessage",
           "Não foram encontrados repositórios para o usuário informado."
         );
         return;
       }
-      store.commit("userRepositories", response.data);
+      this.$store.commit("userRepositories", response.data);
       if (response.headers.link) {
-        store.commit("paginationLinks", parseLinkHeader(response.headers.link));
+        this.$store.commit(
+          "paginationLinks",
+          parseLinkHeader(response.headers.link)
+        );
       } else {
-        store.commit("paginationLinks", {});
+        this.$store.commit("paginationLinks", {});
       }
     }
   },

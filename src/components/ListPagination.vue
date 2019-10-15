@@ -42,7 +42,6 @@
   </div>
 </template>
 <script>
-import store from "@/store";
 import paginationButtonStyle from "@/assets/jss/paginationButtonStyle";
 import { getRepositoriesFromPagination } from "@/services/github";
 import classes from "@/utils/cssTranspilation";
@@ -65,7 +64,7 @@ export default {
   name: "ListPagination",
   computed: {
     paginationLinks() {
-      return store.state.paginationLinks;
+      return this.$store.state.paginationLinks;
     }
   },
   data() {
@@ -76,9 +75,18 @@ export default {
   methods: {
     async getRepositories(url) {
       const response = await getRepositoriesFromPagination(url);
-      store.commit("userRepositories", response.data);
+      if (response.message) {
+        this.$store.commit(
+          "errorMessage",
+          `Erro na comunicação com a api. Erro: ${response.message}`
+        );
+      }
+      this.$store.commit("userRepositories", response.data);
       if (response.headers.link) {
-        store.commit("paginationLinks", parseLinkHeader(response.headers.link));
+        this.$store.commit(
+          "paginationLinks",
+          parseLinkHeader(response.headers.link)
+        );
       }
     }
   }

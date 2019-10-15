@@ -17,7 +17,6 @@
 </template>
 
 <script>
-import store from "@/store";
 import classes from "@/utils/cssTranspilation";
 import ListPagination from "@/components/ListPagination.vue";
 import ListRepositories from "@/components/ListRepositories.vue";
@@ -41,8 +40,8 @@ const styles = {
 export default {
   name: "home",
   computed: {
-    githubUser: () => store.state.githubUser,
-    errorMessage: () => store.state.errorMessage
+    githubUser: () => this.$store.state.githubUser,
+    errorMessage: () => this.$store.state.errorMessage
   },
   data() {
     return {

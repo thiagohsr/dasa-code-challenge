@@ -7,13 +7,11 @@
   </ul>
 </template>
 <script>
-import store from "@/store";
-
 export default {
   name: "ListRepositories",
   computed: {
     userRepositories() {
-      return store.state.userRepositories;
+      return this.$store.state.userRepositories;
     }
   },
   props: {}
