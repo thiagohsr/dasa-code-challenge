@@ -8,7 +8,8 @@ export default new Vuex.Store({
     githubUser: "",
     errorMessage: "",
     userRepositories: [],
-    paginationLinks: {}
+    paginationLinks: {},
+    isLoading: false
   },
   mutations: {
     errorMessage(state, errorMessage) {
@@ -22,6 +23,9 @@ export default new Vuex.Store({
     },
     paginationLinks(state, links) {
       state.paginationLinks = links;
+    },
+    isLoading(state, isLoading) {
+      state.isLoading = isLoading;
     }
   },
   actions: {}

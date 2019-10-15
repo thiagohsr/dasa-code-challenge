@@ -31,11 +31,9 @@ const styles = {
     paddingLeft: 15,
     paddingTop: 15,
     paddingRight: 15,
-    paddingBottom: 15
-  },
-  searchBox: {
-    display: "inline-flex",
-    justifyContent: "center"
+    paddingBottom: 15,
+    position: "relative",
+    zIndex: 1
   }
 };
 
