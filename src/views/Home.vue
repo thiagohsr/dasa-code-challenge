@@ -1,35 +1,26 @@
 <template>
   <div v-bind:class="classes.home">
-    <form @submit.prevent="getRepositories" v-bind:class="classes.searchBox">
-      <custom-input placeholder="Usuário do github" v-model="username" />
-      <custom-button>buscar</custom-button>
-    </form>
-    <list-pagination
-      v-if="data.paginationLinks"
-      v-bind:pagination="data.paginationLinks || {}"
-      v-bind:getRepositories="getRepositories"
-    />
-    <list-repositories v-bind:repositories="data.repositories" />
+    <h1>Busca de repositórios por usuário</h1>
+    <p>
+      Informe o nome do usuário que deseja visualizar os repositórios abaixo:
+    </p>
+    <github-search />
+
+    <list-pagination />
+    <h3>Exibindo repositórios para o usuário: {{ githubUser }}</h3>
+    <list-repositories />
 
     <p v-if="errorMessage">{{ errorMessage }}</p>
 
-    <list-pagination
-      v-if="data.paginationLinks"
-      v-bind:pagination="data.paginationLinks || {}"
-      v-bind:getRepositories="getRepositories"
-    />
+    <list-pagination />
   </div>
 </template>
 
 <script>
-import Vue from "vue";
 import classes from "@/utils/cssTranspilation";
-import parseLinkHeader from "@/utils/githubPaginationParser";
-
-import CustomButton from "@/components/CustomButton.vue";
-import CustomInput from "@/components/CustomInput.vue";
 import ListPagination from "@/components/ListPagination.vue";
 import ListRepositories from "@/components/ListRepositories.vue";
+import GithubSearch from "@/components/GithubSearch.vue";
 
 const styles = {
   home: {
@@ -48,40 +39,17 @@ const styles = {
 
 export default {
   name: "home",
+  computed: {
+    githubUser: () => this.$store.state.githubUser,
+    errorMessage: () => this.$store.state.errorMessage
+  },
   data() {
     return {
-      classes: classes(styles),
-      username: "",
-      data: { repositories: [], paginationLinks: "" },
-      errorMessage: ""
+      classes: classes(styles)
     };
   },
-  methods: {
-    async getRepositories(event, apiUrl) {
-      this.data.repositories = [];
-      const api = apiUrl
-        ? apiUrl
-        : `https://api.github.com/users/${this.username}/repos`;
-
-      await Vue.axios
-        .get(api)
-        .then(result => {
-          this.data.paginationLinks = result.headers.hasOwnProperty("link")
-            ? parseLinkHeader(result.headers.link)
-            : "";
-          this.errorMessage = result.data.length
-            ? ""
-            : "Não foram encontrados repositórios para o usuário informado.";
-          this.data.repositories = result.data;
-        })
-        .catch(() => {
-          this.errorMessage = "O usuário informado não existe";
-        });
-    }
-  },
   components: {
-    "custom-button": CustomButton,
-    "custom-input": CustomInput,
+    "github-search": GithubSearch,
     "list-pagination": ListPagination,
     "list-repositories": ListRepositories
   }

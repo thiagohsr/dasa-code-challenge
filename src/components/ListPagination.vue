@@ -1,38 +1,51 @@
 <template>
-  <div v-bind:class="classes.paginationHolder">
+  <div
+    v-if="Object.keys(paginationLinks).length"
+    v-bind:class="classes.paginationHolder"
+  >
     <button
-      v-bind:class="pagination.first ? classes.pageItem : classes.disabledPage"
-      v-bind:disabled="!pagination.first"
-      v-on:click="getRepositories('', pagination.first)"
+      v-bind:class="
+        paginationLinks.first ? classes.pageItem : classes.disabledPage
+      "
+      v-bind:disabled="!paginationLinks.first"
+      v-on:click="getRepositories(paginationLinks.first)"
     >
       primeira
     </button>
     <button
-      v-bind:class="pagination.prev ? classes.pageItem : classes.disabledPage"
-      v-bind:disabled="!pagination.prev"
-      v-on:click="getRepositories('', pagination.prev)"
+      v-bind:class="
+        paginationLinks.prev ? classes.pageItem : classes.disabledPage
+      "
+      v-bind:disabled="!paginationLinks.prev"
+      v-on:click="getRepositories(paginationLinks.prev)"
     >
       anterior
     </button>
     <button
-      v-bind:class="pagination.next ? classes.pageItem : classes.disabledPage"
-      v-bind:disabled="!pagination.next"
-      v-on:click="getRepositories('', pagination.next)"
+      v-bind:class="
+        paginationLinks.next ? classes.pageItem : classes.disabledPage
+      "
+      v-bind:disabled="!paginationLinks.next"
+      v-on:click="getRepositories(paginationLinks.next)"
     >
       próxima
     </button>
     <button
-      v-bind:class="pagination.last ? classes.pageItem : classes.disabledPage"
-      v-bind:disabled="!pagination.last"
-      v-on:click="getRepositories('', pagination.last)"
+      v-bind:class="
+        paginationLinks.last ? classes.pageItem : classes.disabledPage
+      "
+      v-bind:disabled="!paginationLinks.last"
+      v-on:click="getRepositories(paginationLinks.last)"
     >
       última
     </button>
   </div>
 </template>
 <script>
-import classes from "@/utils/cssTranspilation";
 import paginationButtonStyle from "@/assets/jss/paginationButtonStyle";
+import { getRepositoriesFromPagination } from "@/services/github";
+import classes from "@/utils/cssTranspilation";
+import parseLinkHeader from "@/utils/githubPaginationParser";
 
 const styles = {
   paginationHolder: {
@@ -49,17 +62,32 @@ const styles = {
 
 export default {
   name: "ListPagination",
+  computed: {
+    paginationLinks() {
+      return this.$store.state.paginationLinks;
+    }
+  },
   data() {
     return {
       classes: classes(styles)
     };
   },
-  props: {
-    getRepositories: {
-      type: Function
-    },
-    pagination: {
-      type: Object
+  methods: {
+    async getRepositories(url) {
+      const response = await getRepositoriesFromPagination(url);
+      if (response.message) {
+        this.$store.commit(
+          "errorMessage",
+          `Erro na comunicação com a api. Erro: ${response.message}`
+        );
+      }
+      this.$store.commit("userRepositories", response.data);
+      if (response.headers.link) {
+        this.$store.commit(
+          "paginationLinks",
+          parseLinkHeader(response.headers.link)
+        );
+      }
     }
   }
 };
