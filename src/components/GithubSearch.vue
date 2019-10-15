@@ -29,6 +29,7 @@ export default {
   },
   methods: {
     async getRepositories() {
+      this.$store.commit("isLoading", true);
       const response = await getUserRepositories(this.username);
       this.$store.commit("githubUser", this.username);
       if (response.message) {
@@ -51,6 +52,10 @@ export default {
       } else {
         this.$store.commit("paginationLinks", {});
       }
+      let animation = setInterval(() => {
+        this.$store.commit("isLoading", false);
+        clearInterval(animation);
+      }, 900);
     }
   },
   components: {

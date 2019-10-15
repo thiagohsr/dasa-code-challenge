@@ -74,6 +74,7 @@ export default {
   },
   methods: {
     async getRepositories(url) {
+      this.$store.commit("isLoading", true);
       const response = await getRepositoriesFromPagination(url);
       if (response.message) {
         this.$store.commit(
@@ -88,6 +89,10 @@ export default {
           parseLinkHeader(response.headers.link)
         );
       }
+      let animation = setInterval(() => {
+        this.$store.commit("isLoading", false);
+        clearInterval(animation);
+      }, 900);
     }
   }
 };

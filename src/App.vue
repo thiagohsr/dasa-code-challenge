@@ -1,20 +1,27 @@
 <template>
-  <div id="app">
+  <div id="app" v-bind:class="`${isLoading ? classes.noScroll : null}`">
     <router-view />
+    <loading />
   </div>
 </template>
 <script>
 import classes from "@/utils/cssTranspilation";
-
+import Loading from "@/components/Loading.vue";
 const styles = {
   "@global": {
+    html: {
+      width: "100%",
+      height: "100%"
+    },
     body: {
       display: "flex",
       fontFamily: "'Avenir', Helvetica, Arial, sans-serif",
       justifyContent: "center",
       margin: 0,
       padding: 0,
-      width: "100%"
+      width: "100%",
+      height: "100%",
+      backgroundColor: "#E5E5E5"
     },
     "*,  *::before, *::after": {
       boxSizing: "border-box"
@@ -22,6 +29,9 @@ const styles = {
     "*:focus": {
       outline: 0
     }
+  },
+  noScroll: {
+    overflow: "hidden"
   }
 };
 
@@ -31,6 +41,13 @@ export default {
       classes: classes(styles)
     };
   },
-  components: {}
+  computed: {
+    isLoading() {
+      return this.$store.state.isLoading;
+    }
+  },
+  components: {
+    loading: Loading
+  }
 };
 </script>
