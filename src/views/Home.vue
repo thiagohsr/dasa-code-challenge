@@ -40,8 +40,12 @@ const styles = {
 export default {
   name: "home",
   computed: {
-    githubUser: () => this.$store.state.githubUser,
-    errorMessage: () => this.$store.state.errorMessage
+    githubUser() {
+      return this.$store.state.githubUser;
+    },
+    errorMessage() {
+      return this.$store.state.errorMessage;
+    }
   },
   data() {
     return {
