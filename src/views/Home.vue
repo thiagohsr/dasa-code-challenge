@@ -7,7 +7,9 @@
     <github-search />
 
     <list-pagination />
-    <h3>Exibindo repositórios para o usuário: {{ githubUser }}</h3>
+    <h3 v-if="githubUser">
+      Exibindo repositórios para o usuário: {{ githubUser }}
+    </h3>
     <list-repositories />
 
     <p v-if="errorMessage">{{ errorMessage }}</p>
@@ -40,8 +42,12 @@ const styles = {
 export default {
   name: "home",
   computed: {
-    githubUser: () => this.$store.state.githubUser,
-    errorMessage: () => this.$store.state.errorMessage
+    githubUser() {
+      return this.$store.state.githubUser;
+    },
+    errorMessage() {
+      return this.$store.state.errorMessage;
+    }
   },
   data() {
     return {
