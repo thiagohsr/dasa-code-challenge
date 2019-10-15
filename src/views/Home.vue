@@ -4,25 +4,32 @@
       <custom-input placeholder="Usuário do github" v-model="username" />
       <custom-button>buscar</custom-button>
     </form>
-    <ul v-if="data.length">
-      <li v-for="item in data" :key="item.id">
-        <p>{{ item.name }} stars:{{ item.stargazers_count }}</p>
-        <p>
-          {{ item.descrition }}
-        </p>
-      </li>
-    </ul>
-    <p v-else>
-      Não foram encontrados repositórios para o usuário informado.
-    </p>
+    <list-pagination
+      v-if="data.paginationLinks"
+      v-bind:pagination="data.paginationLinks || {}"
+      v-bind:getRepositories="getRepositories"
+    />
+    <list-repositories v-bind:repositories="data.repositories" />
+
+    <p v-if="errorMessage">{{ errorMessage }}</p>
+
+    <list-pagination
+      v-if="data.paginationLinks"
+      v-bind:pagination="data.paginationLinks || {}"
+      v-bind:getRepositories="getRepositories"
+    />
   </div>
 </template>
 
 <script>
 import Vue from "vue";
 import classes from "@/utils/cssTranspilation";
+import parseLinkHeader from "@/utils/githubPaginationParser";
+
 import CustomButton from "@/components/CustomButton.vue";
 import CustomInput from "@/components/CustomInput.vue";
+import ListPagination from "@/components/ListPagination.vue";
+import ListRepositories from "@/components/ListRepositories.vue";
 
 const styles = {
   home: {
@@ -45,30 +52,38 @@ export default {
     return {
       classes: classes(styles),
       username: "",
-      data: [],
+      data: { repositories: [], paginationLinks: "" },
       errorMessage: ""
     };
   },
   methods: {
-    getRepositories() {
-      this.data = [];
-      const api = `https://api.github.com/users/${this.username}/repos?per_page=100`;
-      // console.log(api, "username", this.username);
-      Vue.axios
+    async getRepositories(event, apiUrl) {
+      this.data.repositories = [];
+      const api = apiUrl
+        ? apiUrl
+        : `https://api.github.com/users/${this.username}/repos`;
+
+      await Vue.axios
         .get(api)
         .then(result => {
-          console.log("success", result.data);
-          this.data = result.data;
+          this.data.paginationLinks = result.headers.hasOwnProperty("link")
+            ? parseLinkHeader(result.headers.link)
+            : "";
+          this.errorMessage = result.data.length
+            ? ""
+            : "Não foram encontrados repositórios para o usuário informado.";
+          this.data.repositories = result.data;
         })
-        .catch(error => {
-          console.log("Error: ", error);
+        .catch(() => {
           this.errorMessage = "O usuário informado não existe";
         });
     }
   },
   components: {
     "custom-button": CustomButton,
-    "custom-input": CustomInput
+    "custom-input": CustomInput,
+    "list-pagination": ListPagination,
+    "list-repositories": ListRepositories
   }
 };
 </script>
