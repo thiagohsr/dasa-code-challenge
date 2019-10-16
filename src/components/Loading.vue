@@ -12,6 +12,7 @@
 </template>
 <script>
 import classes from "@/utils/cssTranspilation";
+// Beautiful loading thanks to tobiasahlin https://tobiasahlin.com/spinkit/
 import loadingStyle from "@/assets/jss/loadingStyle";
 
 export default {

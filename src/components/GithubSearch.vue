@@ -23,9 +23,7 @@ export default {
   data() {
     return {
       classes: classes(styles),
-      username: "",
-      data: { repositories: [], paginationLinks: "" },
-      errorMessage: ""
+      username: ""
     };
   },
   methods: {
@@ -37,8 +35,8 @@ export default {
     },
     async getRepositories() {
       const url = GITHUB_USER_REPOS.replace("{{username}}", this.username);
-
       this.$store.commit("isLoading", true);
+
       const response = await getRepositories(url);
 
       if (response.message) {
@@ -60,6 +58,7 @@ export default {
       }
       this.$store.commit("githubUser", this.username);
       this.$store.commit("userRepositories", response.data);
+
       if (response.headers.link) {
         this.$store.commit(
           "paginationLinks",
