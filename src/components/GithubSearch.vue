@@ -36,7 +36,7 @@ export default {
     async getRepositories() {
       const url = GITHUB_USER_REPOS.replace("{{username}}", this.username);
       this.$store.commit("isLoading", true);
-
+      this.$store.dispatch("getRepositories");
       const response = await getRepositories(url);
 
       if (response.message) {

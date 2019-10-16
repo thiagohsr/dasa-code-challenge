@@ -44,7 +44,7 @@ export default {
       return this.$store.state.githubUser;
     },
     errorMessage() {
-      return this.$store.state.errorMessage;
+      return this.$store.getters.errorMessage;
     }
   },
   data() {

@@ -64,7 +64,7 @@ export default {
   name: "ListPagination",
   computed: {
     paginationLinks() {
-      return this.$store.state.paginationLinks;
+      return this.$store.getters.paginationLinks;
     }
   },
   data() {

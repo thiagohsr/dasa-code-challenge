@@ -1,5 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import { getRepositories } from "@/services/github";
+import { GITHUB_USER_REPOS } from "@/constants/urls";
 
 Vue.use(Vuex);
 
@@ -28,5 +30,17 @@ export default new Vuex.Store({
       state.isLoading = isLoading;
     }
   },
-  actions: {}
+  getters: {
+    errorMessage: ({ errorMessage }) => errorMessage,
+    githubUser: ({ githubUser }) => githubUser,
+    userRepositories: ({ userRepositories }) => userRepositories,
+    paginationLinks: ({ paginationLinks }) => paginationLinks,
+    isLoading: ({ isLoading }) => isLoading
+  },
+  actions: {
+    async getRepositories({ commit }) {
+      const response = await getRepositories;
+      console.log("Instance: ", Vue.axios);
+    }
+  }
 });
