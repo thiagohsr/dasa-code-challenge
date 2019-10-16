@@ -7,7 +7,7 @@
     <github-search />
 
     <list-pagination />
-    <h3 v-if="githubUser">
+    <h3 v-if="githubUser && !errorMessage">
       Exibindo repositórios para o usuário: {{ githubUser }}
     </h3>
     <list-repositories />

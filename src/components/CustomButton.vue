@@ -1,5 +1,12 @@
 <template>
-  <button v-bind:class="classes.customButton"><slot /></button>
+  <button
+    v-bind:disabled="disabled"
+    v-bind:class="
+      `${!disabled ? classes.customButton : classes.customButtonDisabled}`
+    "
+  >
+    <slot />
+  </button>
 </template>
 <script>
 import classes from "@/utils/cssTranspilation";
@@ -7,17 +14,12 @@ import button from "@/assets/jss/buttonStyle";
 
 const styles = {
   customButton: {
+    ...button
+  },
+  customButtonDisabled: {
     ...button,
-    marginLeft: 15,
-    color: "#fff",
-    fontWeight: 600,
-    fontSize: 14,
-    textAlign: "center",
-    letterSpacing: "0.0357143em",
-    textTransform: "uppercase",
-    background: "#009688",
-    boxShadow:
-      "0px 2px 2px rgba(0, 0, 0, 0.24), 0px 0px 2px rgba(0, 0, 0, 0.12)"
+    background: "#dddddd",
+    color: "#808080"
   }
 };
 
@@ -30,6 +32,9 @@ export default {
     label: {
       type: String,
       default: "Botão"
+    },
+    disabled: {
+      type: Boolean
     }
   }
 };

@@ -7,10 +7,16 @@ const getUserRepositories = async user =>
     .then(result => result)
     .catch(error => error);
 
+const getRepositories = async url =>
+  await Vue.axios
+    .get(url)
+    .then(result => result)
+    .catch(error => error);
+
 const getRepositoriesFromPagination = async url =>
   await Vue.axios
     .get(url)
     .then(result => result)
     .catch(error => error);
 
-export { getUserRepositories, getRepositoriesFromPagination };
+export { getRepositories, getUserRepositories, getRepositoriesFromPagination };
