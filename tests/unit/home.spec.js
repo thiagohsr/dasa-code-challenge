@@ -40,19 +40,35 @@ describe("Home.vue", () => {
   });
 
   it("should computed githubUser properly render", () => {
+    const expectedValue = "thiagohsr";
     const wrapper = mount(Home, {
       store,
       localVue,
       computed: {
         githubUser() {
-          return "thiagohsr";
+          return expectedValue;
         },
         errorMessage() {
           return "";
         }
       }
     });
-    const h3 = wrapper.find("h3").text();
-    expect(h3).toContain("thiagohsr");
+    const userElement = wrapper.find(".githubUser");
+    expect(userElement.text()).toContain(expectedValue);
+  });
+
+  it("should computed errorMessage properly render", () => {
+    const expectedValue = "Mensagem de erro";
+    const wrapper = mount(Home, {
+      store,
+      localVue,
+      computed: {
+        errorMessage() {
+          return expectedValue;
+        }
+      }
+    });
+    const errorElement = wrapper.find(".errorMessage");
+    expect(errorElement.text()).toContain(expectedValue);
   });
 });
