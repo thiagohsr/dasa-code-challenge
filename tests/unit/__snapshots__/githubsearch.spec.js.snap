@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GithubSearch component tests should render properly 1`] = `
+<form class="searchBox-0-0-1">
+  <custom-input-stub value="" placeholder="Usuário do github"></custom-input-stub>
+  <custom-button-stub label="Botão" disabled="true">buscar</custom-button-stub>
+</form>
+`;
