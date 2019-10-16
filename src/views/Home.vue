@@ -38,7 +38,7 @@ const styles = {
 };
 
 export default {
-  name: "home",
+  name: "Home",
   computed: {
     githubUser() {
       return this.$store.state.githubUser;

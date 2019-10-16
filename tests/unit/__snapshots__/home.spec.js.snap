@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Home.vue should render properly Home view 1`] = `
+<div
+  class="home-0-0-1"
+>
+  <h1>
+    Busca de repositórios por usuário
+  </h1>
+   
+  <p>
+    
+    Informe o nome do usuário que deseja visualizar os repositórios abaixo:
+  
+  </p>
+   
+  <github-search-stub />
+   
+  <list-pagination-stub />
+   
+  <!---->
+   
+  <list-repositories-stub />
+   
+  <!---->
+   
+  <list-pagination-stub />
+</div>
+`;
