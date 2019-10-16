@@ -37,12 +37,10 @@ export default {
     },
     async getRepositories() {
       const url = GITHUB_USER_REPOS.replace("{{username}}", this.username);
-      this.$store.commit("githubUser", this.username);
 
       this.$store.commit("isLoading", true);
       const response = await getRepositories(url);
 
-      this.$store.commit("userRepositories", response.data);
       if (response.message) {
         this.$store.commit("errorMessage", "O usuário informado não existe");
         this.closeLoadingAnimation();
@@ -53,9 +51,15 @@ export default {
           "errorMessage",
           "Não foram encontrados repositórios para o usuário informado."
         );
+        this.$store.commit("userRepositories", []);
+        this.$store.commit("paginationLinks", {});
         this.closeLoadingAnimation();
         return;
+      } else {
+        this.$store.commit("errorMessage", "");
       }
+      this.$store.commit("githubUser", this.username);
+      this.$store.commit("userRepositories", response.data);
       if (response.headers.link) {
         this.$store.commit(
           "paginationLinks",

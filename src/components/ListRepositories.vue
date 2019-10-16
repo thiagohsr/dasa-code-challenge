@@ -6,7 +6,11 @@
       :key="item.id"
     >
       <p>
-        <span>{{ item.name }}</span>
+        <span
+          ><a v-bind:href="item.html_url" target="_blank">{{
+            item.name
+          }}</a></span
+        >
         <span v-bind:class="classes.stars">{{ item.stargazers_count }}</span>
       </p>
       <!-- <p>{{ item.description }}</p> -->
@@ -44,7 +48,15 @@ const style = {
       display: "inline-flex",
       flexDirection: "row",
       justifyContent: "space-between",
-      alignItems: "center"
+      alignItems: "center",
+      "& a": {
+        color: "#009688",
+        textDecoration: "none",
+        "&:hover": {
+          color: "black",
+          transition: "color .8s ease-in-out"
+        }
+      }
     },
     paddingRight: 15,
     paddingLeft: 45
