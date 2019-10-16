@@ -43,7 +43,7 @@
 </template>
 <script>
 import paginationButtonStyle from "@/assets/jss/paginationButtonStyle";
-import { getRepositoriesFromPagination } from "@/services/github";
+import { getRepositories } from "@/services/github";
 import classes from "@/utils/cssTranspilation";
 import parseLinkHeader from "@/utils/githubPaginationParser";
 
@@ -75,7 +75,7 @@ export default {
   methods: {
     async getRepositories(url) {
       this.$store.commit("isLoading", true);
-      const response = await getRepositoriesFromPagination(url);
+      const response = await getRepositories(url);
       if (response.message) {
         this.$store.commit(
           "errorMessage",
