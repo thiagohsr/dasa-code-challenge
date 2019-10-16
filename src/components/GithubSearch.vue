@@ -1,13 +1,14 @@
 <template>
   <form @submit.prevent="getRepositories" v-bind:class="classes.searchBox">
     <custom-input placeholder="Usuário do github" v-model="username" />
-    <custom-button>buscar</custom-button>
+    <custom-button v-bind:disabled="!username">buscar</custom-button>
   </form>
 </template>
 <script>
 import CustomButton from "@/components/CustomButton.vue";
 import CustomInput from "@/components/CustomInput.vue";
-import { getUserRepositories } from "@/services/github";
+import { getRepositories } from "@/services/github";
+import { GITHUB_USER_REPOS } from "@/constants/urls";
 import classes from "@/utils/cssTranspilation";
 import parseLinkHeader from "@/utils/githubPaginationParser";
 
@@ -28,12 +29,23 @@ export default {
     };
   },
   methods: {
+    closeLoadingAnimation() {
+      let animation = setInterval(() => {
+        this.$store.commit("isLoading", false);
+        clearInterval(animation);
+      }, 900);
+    },
     async getRepositories() {
-      this.$store.commit("isLoading", true);
-      const response = await getUserRepositories(this.username);
+      const url = GITHUB_USER_REPOS.replace("{{username}}", this.username);
       this.$store.commit("githubUser", this.username);
+
+      this.$store.commit("isLoading", true);
+      const response = await getRepositories(url);
+
+      this.$store.commit("userRepositories", response.data);
       if (response.message) {
         this.$store.commit("errorMessage", "O usuário informado não existe");
+        this.closeLoadingAnimation();
         return;
       }
       if (!response.data.length) {
@@ -41,9 +53,9 @@ export default {
           "errorMessage",
           "Não foram encontrados repositórios para o usuário informado."
         );
+        this.closeLoadingAnimation();
         return;
       }
-      this.$store.commit("userRepositories", response.data);
       if (response.headers.link) {
         this.$store.commit(
           "paginationLinks",
@@ -52,10 +64,7 @@ export default {
       } else {
         this.$store.commit("paginationLinks", {});
       }
-      let animation = setInterval(() => {
-        this.$store.commit("isLoading", false);
-        clearInterval(animation);
-      }, 900);
+      this.closeLoadingAnimation();
     }
   },
   components: {
