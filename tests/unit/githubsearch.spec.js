@@ -1,6 +1,5 @@
 import GithubSearch from "@/components/GithubSearch.vue";
 import { createLocalVue, mount, shallowMount } from "@vue/test-utils";
-import mockAxios from "axios";
 import Vuex from "vuex";
 
 const localVue = createLocalVue();
