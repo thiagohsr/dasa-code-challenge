@@ -1,9 +1,9 @@
 import axios from "axios";
-import { GITHUB_USER_REPOS } from "@/constants/urls";
+import { USER_REPOS_URL } from "@/constants/urls";
 
 const getUserRepositories = async user =>
   await axios
-    .get(GITHUB_USER_REPOS.replace("{{username}}", user))
+    .get(USER_REPOS_URL.replace("{{username}}", user))
     .then(result => result)
     .catch(error => error);
 

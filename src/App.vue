@@ -1,5 +1,8 @@
 <template>
-  <div id="app" v-bind:class="`${isLoading ? classes.noScroll : null}`">
+  <div
+    id="app"
+    v-bind:class="`${classes.app} ${isLoading ? classes.noScroll : null}`"
+  >
     <router-view />
     <loading />
   </div>
@@ -30,6 +33,9 @@ const styles = {
       outline: 0
     }
   },
+  app: {
+    width: "100%"
+  },
   noScroll: {
     overflow: "hidden"
   }
@@ -43,7 +49,7 @@ export default {
   },
   computed: {
     isLoading() {
-      return this.$store.state.isLoading;
+      return this.$store.getters.isLoading;
     }
   },
   components: {

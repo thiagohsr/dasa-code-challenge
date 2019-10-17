@@ -1,3 +1,3 @@
-const GITHUB_USER_REPOS = `https://api.github.com/users/{{username}}/repos`;
+const USER_REPOS_URL = `https://api.github.com/users/{{username}}/repos`;
 
-export { GITHUB_USER_REPOS };
+export { USER_REPOS_URL };

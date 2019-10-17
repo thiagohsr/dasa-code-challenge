@@ -7,10 +7,7 @@
 <script>
 import CustomButton from "@/components/CustomButton.vue";
 import CustomInput from "@/components/CustomInput.vue";
-import { getRepositories } from "@/services/github";
-import { GITHUB_USER_REPOS } from "@/constants/urls";
 import classes from "@/utils/cssTranspilation";
-import parseLinkHeader from "@/utils/githubPaginationParser";
 
 const styles = {
   searchBox: {
@@ -27,47 +24,11 @@ export default {
     };
   },
   methods: {
-    closeLoadingAnimation() {
-      let animation = setInterval(() => {
-        this.$store.commit("isLoading", false);
-        clearInterval(animation);
-      }, 900);
-    },
     async getRepositories() {
-      const url = GITHUB_USER_REPOS.replace("{{username}}", this.username);
-      this.$store.commit("isLoading", true);
-
-      const response = await getRepositories(url);
-
-      if (response.message) {
-        this.$store.commit("errorMessage", "O usuário informado não existe");
-        this.closeLoadingAnimation();
-        return;
-      }
-      if (!response.data.length) {
-        this.$store.commit(
-          "errorMessage",
-          "Não foram encontrados repositórios para o usuário informado."
-        );
-        this.$store.commit("userRepositories", []);
-        this.$store.commit("paginationLinks", {});
-        this.closeLoadingAnimation();
-        return;
-      } else {
-        this.$store.commit("errorMessage", "");
-      }
-      this.$store.commit("githubUser", this.username);
-      this.$store.commit("userRepositories", response.data);
-
-      if (response.headers.link) {
-        this.$store.commit(
-          "paginationLinks",
-          parseLinkHeader(response.headers.link)
-        );
-      } else {
-        this.$store.commit("paginationLinks", {});
-      }
-      this.closeLoadingAnimation();
+      this.$store.dispatch({
+        type: "getRepositories",
+        githubUser: this.username
+      });
     }
   },
   components: {

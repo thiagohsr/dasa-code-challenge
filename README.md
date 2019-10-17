@@ -1,4 +1,5 @@
-# github-user-repos
+# dasa-code-challenge
+Dasa Code Challenge frontend
 
 ## Project setup
 ```

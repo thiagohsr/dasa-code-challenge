@@ -43,9 +43,7 @@
 </template>
 <script>
 import paginationButtonStyle from "@/assets/jss/paginationButtonStyle";
-import { getRepositories } from "@/services/github";
 import classes from "@/utils/cssTranspilation";
-import parseLinkHeader from "@/utils/githubPaginationParser";
 
 const styles = {
   paginationHolder: {
@@ -64,7 +62,7 @@ export default {
   name: "ListPagination",
   computed: {
     paginationLinks() {
-      return this.$store.state.paginationLinks;
+      return this.$store.getters.paginationLinks;
     }
   },
   data() {
@@ -74,25 +72,10 @@ export default {
   },
   methods: {
     async getRepositories(url) {
-      this.$store.commit("isLoading", true);
-      const response = await getRepositories(url);
-      if (response.message) {
-        this.$store.commit(
-          "errorMessage",
-          `Erro na comunicação com a api. Erro: ${response.message}`
-        );
-      }
-      this.$store.commit("userRepositories", response.data);
-      if (response.headers.link) {
-        this.$store.commit(
-          "paginationLinks",
-          parseLinkHeader(response.headers.link)
-        );
-      }
-      let animation = setInterval(() => {
-        this.$store.commit("isLoading", false);
-        clearInterval(animation);
-      }, 900);
+      this.$store.dispatch({
+        type: "getRepositories",
+        pageUrl: url
+      });
     }
   }
 };

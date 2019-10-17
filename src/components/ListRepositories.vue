@@ -25,7 +25,7 @@ export default {
   name: "ListRepositories",
   computed: {
     userRepositories() {
-      return this.$store.state.userRepositories;
+      return this.$store.getters.userRepositories;
     }
   },
   data() {
