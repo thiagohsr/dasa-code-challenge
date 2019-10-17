@@ -8,8 +8,8 @@
 
     <list-pagination />
     <h3 class="githubUser" v-if="githubUser && !errorMessage">
-      Exibindo {{ reposCount }} repositório{{ reposCount > 1 ? s : "" }} para o
-      usuário: {{ githubUser }}
+      Exibindo {{ reposCount }} repositório{{ reposCount > 1 ? "s" : "" }} para
+      o usuário: {{ githubUser }}
     </h3>
     <list-repositories />
 
