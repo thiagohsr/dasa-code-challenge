@@ -7,6 +7,7 @@ const localVue = createLocalVue();
 localVue.use(Vuex);
 
 describe("GithubSearch component tests", () => {
+  let actions;
   let store;
   let state;
   let mutations;
@@ -41,8 +42,17 @@ describe("GithubSearch component tests", () => {
         return state.githubUser;
       }
     };
+    actions = {
+      getRepositories: ({ commit }, { githubUser }) => {
+        commit("githubUser", githubUser);
+      },
+      githubUser: ({ commit }, { githubUser }) => {
+        commit("githubUser", githubUser);
+      }
+    };
     store = new Vuex.Store({
       state,
+      actions,
       mutations,
       getters
     });
@@ -86,23 +96,17 @@ describe("GithubSearch component tests", () => {
     expect(mounted.vm.getRepositories).toBeCalled();
   });
 
-  it("should call getRepositories from service", async () => {
-    const getRepositoriesMock = await mockAxios.get.mockImplementationOnce(() =>
-      Promise.resolve({
-        data: [],
-        headers: {}
-      })
-    );
-
+  it("should call getRepositories action from store", async () => {
     const mounted = mount(GithubSearch, {
       store,
       localVue
     });
+    const expectedValue = "githubUser";
 
     const customInput = mounted.find("input");
     const customButton = mounted.find("button");
-    customInput.setValue("githubUser");
+    customInput.setValue(expectedValue);
     customButton.trigger("submit");
-    expect(getRepositoriesMock).toBeCalled();
+    expect(mounted.vm.$store.getters.githubUser).toBe(expectedValue);
   });
 });

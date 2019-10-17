@@ -9,6 +9,7 @@ localVue.use(Vuex);
 describe("Home.vue", () => {
   let store;
   let state;
+  let getters;
   beforeEach(() => {
     state = {
       githubUser: "",
@@ -17,8 +18,13 @@ describe("Home.vue", () => {
       paginationLinks: {},
       isLoading: false
     };
+    getters = {
+      githubUser: state => state.githubUser,
+      paginationLinks: state => state.paginationLinks
+    };
     store = new Vuex.Store({
-      state
+      state,
+      getters
     });
   });
 
@@ -68,6 +74,7 @@ describe("Home.vue", () => {
         }
       }
     });
+
     const errorElement = wrapper.find(".errorMessage");
     expect(errorElement.text()).toContain(expectedValue);
   });
