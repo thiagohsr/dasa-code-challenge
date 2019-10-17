@@ -34,7 +34,9 @@ const styles = {
     }
   },
   app: {
-    width: "100%"
+    width: "100%",
+    display: "flex",
+    justifyContent: "center"
   },
   noScroll: {
     overflow: "hidden"

@@ -28,6 +28,8 @@ const styles = {
   home: {
     display: "flex",
     flexDirection: "column",
+    width: "100%",
+    maxWidth: 560,
     paddingLeft: 15,
     paddingTop: 15,
     paddingRight: 15,
