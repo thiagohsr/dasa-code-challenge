@@ -1,5 +1,8 @@
 <template>
-  <div id="app" v-bind:class="`${isLoading ? classes.noScroll : null}`">
+  <div
+    id="app"
+    v-bind:class="`${classes.app} ${isLoading ? classes.noScroll : null}`"
+  >
     <router-view />
     <loading />
   </div>
@@ -29,6 +32,9 @@ const styles = {
     "*:focus": {
       outline: 0
     }
+  },
+  app: {
+    width: "100%"
   },
   noScroll: {
     overflow: "hidden"
