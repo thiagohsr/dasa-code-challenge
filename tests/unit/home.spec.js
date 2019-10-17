@@ -20,7 +20,8 @@ describe("Home.vue", () => {
     };
     getters = {
       githubUser: state => state.githubUser,
-      paginationLinks: state => state.paginationLinks
+      paginationLinks: state => state.paginationLinks,
+      reposCount: state => state.paginationLinks
     };
     store = new Vuex.Store({
       state,
@@ -52,6 +53,27 @@ describe("Home.vue", () => {
       localVue,
       computed: {
         githubUser() {
+          return expectedValue;
+        },
+        errorMessage() {
+          return "";
+        }
+      }
+    });
+    const userElement = wrapper.find(".githubUser");
+    expect(userElement.text()).toContain(expectedValue);
+  });
+
+  it("should computed reposCount properly render", () => {
+    const expectedValue = "30";
+    const wrapper = mount(Home, {
+      store,
+      localVue,
+      computed: {
+        githubUser() {
+          return "githubUser";
+        },
+        reposCount() {
           return expectedValue;
         },
         errorMessage() {

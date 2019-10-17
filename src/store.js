@@ -12,7 +12,8 @@ export default new Vuex.Store({
     errorMessage: "",
     userRepositories: [],
     paginationLinks: {},
-    isLoading: false
+    isLoading: false,
+    reposCount: ""
   },
   mutations: {
     errorMessage(state, errorMessage) {
@@ -29,6 +30,9 @@ export default new Vuex.Store({
     },
     isLoading(state, isLoading) {
       state.isLoading = isLoading;
+    },
+    reposCount(state, userRepositories) {
+      state.reposCount = userRepositories;
     }
   },
   getters: {
@@ -36,7 +40,12 @@ export default new Vuex.Store({
     githubUser: ({ githubUser }) => githubUser,
     userRepositories: ({ userRepositories }) => userRepositories,
     paginationLinks: ({ paginationLinks }) => paginationLinks,
-    isLoading: ({ isLoading }) => isLoading
+    isLoading: ({ isLoading }) => isLoading,
+    reposCount: ({ userRepositories }) => {
+      if (userRepositories.length) {
+        return userRepositories.length;
+      }
+    }
   },
   actions: {
     handleErrors({ commit }, response) {
@@ -67,6 +76,7 @@ export default new Vuex.Store({
       dispatch("paginationLinks", response);
       commit("githubUser", githubUser);
       commit("userRepositories", response.data);
+      commit("reposCount", response.data.length);
       commit("isLoading", false);
     },
     paginationLinks({ commit }, { headers }) {
