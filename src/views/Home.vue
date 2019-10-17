@@ -8,7 +8,8 @@
 
     <list-pagination />
     <h3 class="githubUser" v-if="githubUser && !errorMessage">
-      Exibindo repositórios para o usuário: {{ githubUser }}
+      Exibindo {{ reposCount }} repositório{{ reposCount > 1 ? s : "" }} para o
+      usuário: {{ githubUser }}
     </h3>
     <list-repositories />
 
@@ -44,6 +45,9 @@ export default {
   computed: {
     githubUser() {
       return this.$store.state.githubUser;
+    },
+    reposCount() {
+      return this.$store.state.reposCount;
     },
     errorMessage() {
       return this.$store.getters.errorMessage;
