@@ -2,12 +2,12 @@
 # Dasa Code Challenge frontend
 App to retrieve repositories to given user of github platform.
 
-## Dependências
+## Dependencies to run and test the project
 [Install dev dependencies](#install-dev-dependencies)
 
 - Nodejs v11.10.1 - I recommend [NVM](https://github.com/creationix/nvm#installation) to install and manage node js versions.
-- Docker - [Install overview and guides](https://docs.docker.com/install/overview/).
-
+- Docker - [Overview, Install and guides](https://docs.docker.com/install/overview/).
+- Compose - [Overview, Install and guides](https://docs.docker.com/compose/).
 
 ## Install dev dependencies
 The command above wil install needed dependencies to local run and develop the project.
@@ -34,9 +34,17 @@ This will compile and building artifacts of our source files that's we simple pu
 make production
 ```
 
-### Lints and fixes files
+
+## Containerized
+Build the docker container and run container
 ```
-yarn lint
+make docker-build
+make docker-run
+```
+
+If you prefer develop the project inside a running container, exec this one:
+```
+make docker-run-dev
 ```
 
 ### Customize configuration

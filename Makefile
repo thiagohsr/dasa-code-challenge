@@ -35,4 +35,4 @@ docker-run:
 	docker run -it -p 5000:80 --rm --name github-user-repos-app-1 dasa-challenge/github-user-repos-app
 
 docker-run-dev:
-	sudo docker run -p -p 5000:80 -it --rm -v $(shell pwd) -w /app --name github-user-repos-app-1 dasa-challenge/github-user-repos-app
+	docker-compose up --build

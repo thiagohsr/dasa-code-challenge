@@ -1,21 +1,16 @@
-FROM node:lts-alpine
 
-# instala um servidor http simples para servir conteúdo estático
-# RUN npm install -g yarn
+#https://br.vuejs.org/v2/cookbook/dockerize-vuejs-app.html
 
-# faz da pasta 'app' o diretório atual de trabalho
+FROM node:lts-alpine as dockerized
+
 WORKDIR /app
 
-# copia os arquivos 'package.json' e 'package-lock.json' (se disponível)
 COPY package*.json ./
 
-# instala dependências do projeto
 RUN yarn install
 
-# copia arquivos e pastas para o diretório atual de trabalho (pasta 'app')
 COPY . .
 
-# compila a aplicação de produção com minificação
 RUN yarn build
 
 EXPOSE 80
