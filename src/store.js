@@ -88,7 +88,6 @@ export default new Vuex.Store({
     },
     async reposCount({ commit }, githubUser) {
       let url = USER_REPOS_URL.replace("{{username}}", githubUser);
-      console.log("wawa", url);
       const response = await getRepositories(`${url}?per_page=1`);
 
       if (response.headers && response.headers.link) {

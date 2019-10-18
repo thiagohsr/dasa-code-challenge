@@ -74,6 +74,7 @@ export default {
     async getRepositories(url) {
       this.$store.dispatch({
         type: "getRepositories",
+        githubUser: this.$store.getters.githubUser,
         pageUrl: url
       });
     }
