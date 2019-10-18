@@ -1,7 +1,7 @@
 FROM node:lts-alpine
 
 # instala um servidor http simples para servir conteúdo estático
-RUN npm install -g yarn
+# RUN npm install -g yarn
 
 # faz da pasta 'app' o diretório atual de trabalho
 WORKDIR /app
