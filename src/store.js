@@ -31,10 +31,8 @@ export default new Vuex.Store({
     isLoading(state, isLoading) {
       state.isLoading = isLoading;
     },
-    reposCount(state, userRepositories) {
-      if (userRepositories && userRepositories.length) {
-        state.reposCount = userRepositories.length;
-      }
+    reposCount(state, count) {
+      state.reposCount = count;
     }
   },
   getters: {
@@ -76,7 +74,9 @@ export default new Vuex.Store({
       dispatch("paginationLinks", response);
       commit("githubUser", githubUser);
       commit("userRepositories", response.data);
-      commit("reposCount", response.data);
+      if (!pageUrl) {
+        dispatch("reposCount", githubUser);
+      }
       commit("isLoading", false);
     },
     paginationLinks({ commit }, { headers }) {
@@ -84,6 +84,17 @@ export default new Vuex.Store({
         commit("paginationLinks", parseLinkHeader(headers.link));
       } else {
         commit("paginationLinks", {});
+      }
+    },
+    async reposCount({ commit }, githubUser) {
+      let url = USER_REPOS_URL.replace("{{username}}", githubUser);
+      const response = await getRepositories(`${url}?per_page=1`);
+
+      if (response.headers && response.headers.link) {
+        let reposCount = parseLinkHeader(response.headers.link).last.split(
+          "="
+        )[2];
+        commit("reposCount", reposCount);
       }
     }
   }
