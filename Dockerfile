@@ -1,7 +1,6 @@
 FROM node:lts-alpine
 
 # instala um servidor http simples para servir conteúdo estático
-RUN npm install -g serve
 RUN npm install -g yarn
 
 # faz da pasta 'app' o diretório atual de trabalho
@@ -19,5 +18,5 @@ COPY . .
 # compila a aplicação de produção com minificação
 RUN yarn build
 
-EXPOSE 8080
+EXPOSE 80
 CMD [ "yarn", "start" ]
