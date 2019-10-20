@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ListRepositories should render properly ListRepositories view 1`] = `
+<ul
+  class="list-0-0-1"
+/>
+`;
