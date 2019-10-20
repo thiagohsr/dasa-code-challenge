@@ -25,7 +25,6 @@ const actions = {
     const url = pageUrl
       ? pageUrl
       : USER_REPOS_URL.replace("{{username}}", githubUser);
-
     const response = await getRepositories(url);
     dispatch("handleErrors", response);
     dispatch("paginationLinks", response);
@@ -51,6 +50,7 @@ const actions = {
       let reposCount = parseLinkHeader(response.headers.link).last.split(
         "="
       )[2];
+
       commit("reposCount", reposCount);
     }
   }
