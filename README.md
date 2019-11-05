@@ -1,6 +1,6 @@
 [![CircleCI](https://circleci.com/gh/thiagohsr/dasa-code-challenge.svg?style=svg&circle-token=939fb71518096927333b4209c604997b4c3184b5)](https://circleci.com/gh/thiagohsr/dasa-code-challenge)
 # Dasa Code Challenge frontend
-App to retrieve repositories to given user of github platform. Visit <a href="https://git-user-repos.herokuapp.com/" target="_blank" >app on heroku</a>.
+App to retrieve repositories to given user of github platform. Visit <a href="https://git-user-repos.herokuapp.com/" target="_blank" rel="noopener noreferrer">app on heroku</a>.
 
 ## Dependencies to run and test the project
 [Install dev dependencies](#install-dev-dependencies)
